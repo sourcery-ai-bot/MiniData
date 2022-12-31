@@ -100,7 +100,6 @@ class Generator:
 
         return dic[key]
 
-    @timefn
     @logger.catch
     def GetItemList(self, address) -> list[item.Item]:
         """
@@ -129,18 +128,18 @@ class Generator:
             item_id = self.pm.read_int(baseAddress)
 
             # 读取物品名称
-            length = self.pm.read_int(baseAddress + 0x5C)
+            length = self.pm.read_int(baseAddress + 0x60)
             item_name = ""
             if 0 < length < 16:
-                item_name = self.pm.read_bytes(baseAddress + 0x4C, length).decode("utf-8")
+                item_name = self.pm.read_bytes(baseAddress + 0x50, length).decode("utf-8")
             elif 16 <= length < 100:
-                name_address = self.pm.read_int(baseAddress + 0x4C)
+                name_address = self.pm.read_int(baseAddress + 0x50)
                 item_name = self.pm.read_bytes(name_address, length).decode("utf-8")
             if item_name == "":
                 item_name = "未知"
 
             # 读取物品类型ID
-            # item_type = self.pm.read_int(baseAddress + 0x40)
+            # item_type = self.pm.read_int(baseAddress + 0x44)
 
             item_ = item.Item(item_id, item_name)
             itemList.append(item_)
