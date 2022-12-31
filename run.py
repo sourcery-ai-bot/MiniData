@@ -1,9 +1,11 @@
+from utils import utils
+from lib import item
+from generator import Generator
+
 from loguru import logger
 
-from generator import Generator
-from lib import item
 
-
+@utils.timefn
 @logger.catch
 def Run():
     logger.info("程序开始运行...")
