@@ -1,5 +1,5 @@
 from utils import utils
-from lib import item
+from lib import item, monster
 from generator import Generator
 
 from loguru import logger
@@ -10,8 +10,11 @@ from loguru import logger
 def Run():
     logger.info("程序开始运行...")
     gt = Generator()
-    itemList = gt.GetItemList(gt.GetAddress("ItemCsv"))
+    itemList = gt.GetItemList(gt.GetAddress("Item"))
+    monsterList = gt.GetMonsterList(gt.GetAddress("Monster"))
+
     item.ExportItem(itemList)
+    monster.ExportMonster(monsterList)
 
 
 if __name__ == '__main__':

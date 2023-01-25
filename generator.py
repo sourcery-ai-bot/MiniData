@@ -1,5 +1,5 @@
 from utils.utils import *
-from lib import item
+from lib import item, monster
 
 from pymem import *
 from pymem.process import module_from_name
@@ -109,7 +109,7 @@ class Generator:
     def GetItemList(self, address) -> list[item.Item]:
         """
         获取物品列表
-        :param address: ItemCsv实例的地址
+        :param address: Item实例的地址
         :return: 返回物品列表
         """
         address = self.pm.read_int(address)
@@ -151,11 +151,58 @@ class Generator:
 
         return itemList
 
+    @logger.catch
+    def GetMonsterList(self, address) -> list[monster.Monster]:
+        """
+        获取生物列表
+        :param address: Monster实例的地址
+        :return: 返回生物列表
+        """
+        address = self.pm.read_int(address)
+        monsterList = []
+
+        base = self.pm.read_int(address + 0x20)
+        base = self.pm.read_int(base)
+
+        dataAddress = base + 0x8
+        next_ = self.pm.read_int(base + 0x4)
+
+        # 读取链表 (一路next读过去完事了)
+        while next_ != base:
+            while True:
+                # ID
+                monster_id = self.pm.read_int(dataAddress)
+                if monster_id <= 0:
+                    break
+
+                # Name
+                name_len = self.pm.read_int(dataAddress + 0x24)
+                monster_name = ""
+                if 0 < name_len < 16:
+                    monster_name = self.pm.read_bytes(dataAddress + 0x14, name_len).decode("utf-8")
+                elif 16 <= name_len < 100:
+                    name_address = self.pm.read_int(dataAddress + 0x14)
+                    monster_name = self.pm.read_bytes(name_address, name_len).decode("utf-8")
+
+                if monster_name == "":
+                    monster_name = "未知"
+
+                monster_ = monster.Monster(monster_id, monster_name)
+                monsterList.append(monster_)
+                break
+
+            next_ = self.pm.read_int(next_ + 0x4)
+            dataAddress = next_ + 0x8
+
+        monsterList.sort(key=lambda x: x.monster_id, reverse=False)
+
+        return monsterList
+
 
 if __name__ == '__main__':
     logger.info("程序开始运行...")
     gt = Generator()
-    addr = gt.GetAddress("ItemCsv")
-    lst = gt.GetItemList(addr)
-    # item.OuptutItemList(lst)
-    item.ExportItem(lst)
+    addr = gt.GetAddress("Monster")
+    lst = gt.GetMonsterList(addr)
+    monster.OuptutMonsterList(lst)
+    # item.ExportItem(lst)
