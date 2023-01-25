@@ -47,6 +47,7 @@ class Generator:
             self.pm.close_process()
             return False
 
+        logger.info(f"PID: {self.pm.process_id} | HPROCESS: {hex(self.pm.process_handle)}")
         return True
 
     @logger.catch
@@ -67,7 +68,7 @@ class Generator:
 
         dic = dict()
 
-        dic["ItemCsv"] = address
+        dic["Item"] = address
         dic["String"] = address + 0x3C
         dic["Monster"] = address + 0x40
         dic["Block"] = address + 0x54
@@ -81,18 +82,22 @@ class Generator:
         dic["HorseEgg"] = address + 0x108
         dic["RuleOption"] = address + 0x11C
         dic["ItemSkill"] = address + 0x120
-        dic["AntiFraud"] = address + 0x134
-        dic["Particles"] = address + 0x138
-        dic["BuffDef"] = address + 0x13C
-        dic["MinicodeMonsterDef"] = address + 0x150
-        dic["Score"] = address + 0x164
-        dic["BuffEffectBank"] = address + 0x178
-        dic["BuffEffectEnum"] = address + 0x18C
-        dic["RoleSkin"] = address + 0x1A0
-        dic["BuffEffectSliding"] = address + 0x1A4
-        dic["SkinActCsv"] = address + 0x1BC
-        dic["SoundStrDev"] = address + 0x1BC
-        dic["ParticlesStr"] = address + 0x1D0
+        dic["Lua"] = address + 0x134
+        dic["AntiFraud"] = address + 0x13C
+        dic["Particles"] = address + 0x140
+        dic["Buff"] = address + 0x144
+        dic["MinicodeMonster"] = address + 0x158
+        dic["Score"] = address + 0x16C
+        dic["BuffEffectBank"] = address + 0x180
+        dic["BuffEffectEnum"] = address + 0x194
+        dic["ResourcePack"] = address + 0x1A8
+        dic["RoleSkin"] = address + 0x1BC
+        dic["BuffEffectSliding"] = address + 0x1C0
+        dic["SkinAct"] = address + 0x1D4
+        dic["CreateRoleAvatar"] = address + 0x1D8
+        dic["Summon"] = address + 0x1EC
+        dic["SoundStr"] = address + 0x1F0
+        dic["ParticlesStr"] = address + 0x204
 
         if key not in dic.keys():
             logger.error(f"{key}不存在, 请检查输入错误!")
