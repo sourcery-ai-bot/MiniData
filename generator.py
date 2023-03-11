@@ -17,8 +17,7 @@ class Generator:
         self.pm = None
         self.module_handle = None
 
-        isInit = self.InitProcess()
-        if isInit:
+        if isInit := self.InitProcess():
             logger.success("初始化进程信息成功!")
         else:
             logger.error("初始化进程信息失败, 请检查错误信息, 如无法解决请前往GitHub提交Issue")
@@ -66,38 +65,38 @@ class Generator:
             logger.error("获取csv数据地址失败!")
             return 0
 
-        dic = dict()
-
-        dic["Item"] = address
-        dic["String"] = address + 0x3C
-        dic["Monster"] = address + 0x40
-        dic["Block"] = address + 0x54
-        dic["Tool"] = address + 0x6C
-        dic["PhysicsActor"] = address + 0xA0
-        dic["Projectile"] = address + 0xB4
-        dic["MusicalInstruments"] = address + 0xC8
-        dic["SprayPaint"] = address + 0xDC
-        dic["DevUIResource"] = address + 0xF0
-        dic["Food"] = address + 0xF4
-        dic["HorseEgg"] = address + 0x108
-        dic["RuleOption"] = address + 0x11C
-        dic["ItemSkill"] = address + 0x120
-        dic["Lua"] = address + 0x134
-        dic["AntiFraud"] = address + 0x13C
-        dic["Particles"] = address + 0x140
-        dic["Buff"] = address + 0x144
-        dic["MinicodeMonster"] = address + 0x158
-        dic["Score"] = address + 0x16C
-        dic["BuffEffectBank"] = address + 0x180
-        dic["BuffEffectEnum"] = address + 0x194
-        dic["ResourcePack"] = address + 0x1A8
-        dic["RoleSkin"] = address + 0x1BC
-        dic["BuffEffectSliding"] = address + 0x1C0
-        dic["SkinAct"] = address + 0x1D4
-        dic["CreateRoleAvatar"] = address + 0x1D8
-        dic["Summon"] = address + 0x1EC
-        dic["SoundStr"] = address + 0x1F0
-        dic["ParticlesStr"] = address + 0x204
+        dic = {
+            "Item": address,
+            "String": address + 0x3C,
+            "Monster": address + 0x40,
+            "Block": address + 0x54,
+            "Tool": address + 0x6C,
+            "PhysicsActor": address + 0xA0,
+            "Projectile": address + 0xB4,
+            "MusicalInstruments": address + 0xC8,
+            "SprayPaint": address + 0xDC,
+            "DevUIResource": address + 0xF0,
+            "Food": address + 0xF4,
+            "HorseEgg": address + 0x108,
+            "RuleOption": address + 0x11C,
+            "ItemSkill": address + 0x120,
+            "Lua": address + 0x134,
+            "AntiFraud": address + 0x13C,
+            "Particles": address + 0x140,
+            "Buff": address + 0x144,
+            "MinicodeMonster": address + 0x158,
+            "Score": address + 0x16C,
+            "BuffEffectBank": address + 0x180,
+            "BuffEffectEnum": address + 0x194,
+            "ResourcePack": address + 0x1A8,
+            "RoleSkin": address + 0x1BC,
+            "BuffEffectSliding": address + 0x1C0,
+            "SkinAct": address + 0x1D4,
+            "CreateRoleAvatar": address + 0x1D8,
+            "Summon": address + 0x1EC,
+            "SoundStr": address + 0x1F0,
+            "ParticlesStr": address + 0x204,
+        }
 
         if key not in dic.keys():
             logger.error(f"{key}不存在, 请检查输入错误!")
